@@ -3,7 +3,7 @@ from typing import Any, Optional, cast
 from arq.connections import ArqRedis
 
 from kibune import crud, models, services
-from kibune.api.dependencies import get_db
+from kibune.database.session import get_db
 from kibune.factories import LogFactory
 from kibune.pysigma import PySigma
 
