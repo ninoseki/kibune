@@ -1,0 +1,7 @@
+title: all of them condition
+detection:
+  foo:
+    a: foo
+  bar:
+    b: bar
+  condition: all of them # equivalent to "foo and bar"

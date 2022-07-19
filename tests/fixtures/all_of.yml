@@ -1,0 +1,9 @@
+title: all of condition
+detection:
+  foo:
+    a: foo
+  bar:
+    b: bar
+  baz:
+    c: baz
+  condition: all of ba* # equivalent to "bar and baz"

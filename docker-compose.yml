@@ -1,0 +1,55 @@
+version: "3.8"
+services:
+  redis:
+    image: bitnami/redis:6.2
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    restart: always
+
+  database:
+    image: mysql/mysql-server:8.0
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    restart: always
+
+  worker:
+    build:
+      context: ./
+      dockerfile: default.Dockerfile
+    command: arq kibune.arq.worker.ArqWorkerSettings
+    environment:
+      - TESTING=False
+      - DEBUG=False
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379
+      - SQLALCHEMY_DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/${MYSQL_DATABASE}
+    restart: always
+    depends_on:
+      - redis
+      - database
+    deploy:
+      mode: replicated
+      replicas: 2
+
+  api:
+    build:
+      context: ./
+      dockerfile: default.Dockerfile
+    command: gunicorn -k uvicorn.workers.UvicornWorker kibune.main:app
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      - TESTING=False
+      - DEBUG=False
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379
+      - SQLALCHEMY_DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/${MYSQL_DATABASE}
+    restart: always
+    depends_on:
+      - worker

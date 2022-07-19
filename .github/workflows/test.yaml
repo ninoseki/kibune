@@ -1,0 +1,55 @@
+name: Python CI
+
+on: ["pull_request", "push"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_USER: mysql
+          MYSQL_PASSWORD: mysql
+          MYSQL_DATABASE: test
+          MYSQL_ROOT_PASSWORD: rootpassword
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    strategy:
+      matrix:
+        python-version: [3.9]
+        poetry-version: [1.1.14]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Setup poetry
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-${{ matrix.python-version }}-poetry-${{ matrix.poetry-version }}-${{ hashFiles('poetry.lock') }}
+
+      - name: Install Python dependencies
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: |
+          poetry install
+
+      - name: Run tests
+        env:
+          TESTING_SQLALCHEMY_DATABASE_URL: mysql2://mysql:mysql@127.0.0.1:3306/test
+        run: poetry run pytest
