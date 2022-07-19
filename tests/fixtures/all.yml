@@ -1,0 +1,7 @@
+title: base64
+detection:
+  foo:
+    a|contains|all:
+      - foo
+      - bar
+  condition: foo

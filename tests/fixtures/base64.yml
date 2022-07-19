@@ -1,0 +1,5 @@
+title: base64
+detection:
+  foo:
+    a|base64: foo
+  condition: foo

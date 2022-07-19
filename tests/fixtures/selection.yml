@@ -1,0 +1,5 @@
+title: selection
+detection:
+  selection:
+    Foo: bar
+  condition: selection

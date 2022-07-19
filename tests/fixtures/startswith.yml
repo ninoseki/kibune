@@ -1,0 +1,5 @@
+title: startswith
+detection:
+  foo:
+    a|startswith: foo
+  condition: foo
