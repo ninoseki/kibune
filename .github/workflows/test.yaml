@@ -51,5 +51,5 @@ jobs:
 
       - name: Run tests
         env:
-          TESTING_SQLALCHEMY_DATABASE_URL: mysql2://mysql:mysql@127.0.0.1:3306/test
+          TESTING_SQLALCHEMY_DATABASE_URL: mysql://mysql:mysql@127.0.0.1:3306/test
         run: poetry run pytest
