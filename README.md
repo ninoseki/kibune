@@ -1,5 +1,7 @@
 # kibune
 
+[![Python CI](https://github.com/ninoseki/kibune/actions/workflows/test.yaml/badge.svg)](https://github.com/ninoseki/kibune/actions/workflows/test.yaml)
+
 A [Sigma](https://github.com/SigmaHQ/sigma) based detection pipeline.
 
 (Note: this project is in an alpha state)
@@ -18,7 +20,7 @@ A [Sigma](https://github.com/SigmaHQ/sigma) based detection pipeline.
 ## Docs
 
 - [Overview](https://github.com/ninoseki/kibune/wiki/Overview)
-- [Setup](https://github.com/ninoseki/kibune/wiki/Overview)
+- [Setup](https://github.com/ninoseki/kibune/wiki/Setup)
 - [Usage](https://github.com/ninoseki/kibune/wiki/Usage)
 - [Known limitations](https://github.com/ninoseki/kibune/wiki/Known-limitations)
 
