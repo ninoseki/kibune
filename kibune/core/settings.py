@@ -33,3 +33,6 @@ ARQ_REDIS_CONN_RETRIES: int = config("ARQ_REDIS_CONN_RETRIES", cast=int, default
 ARQ_REDIS_CONN_RETRY_DELAY: int = config(
     "ARQ_REDIS_CONN_RETRY_DELAY", cast=int, default=1
 )
+
+# In-memory LRU cache settings
+SIGMA_RULE_CACHE_SIZE: int = config("SIGMA_RULE_CACHE_SIZE", cast=int, default=128)
