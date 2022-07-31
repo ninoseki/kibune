@@ -20,6 +20,7 @@ SUPPORTED_MODIFIERS = {
     # 'wide',
     # 'utf16',
     # 're',
+    # 'windash'
 }
 
 
